@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Store Mockup</title>
+<link rel="stylesheet" href="https://unpkg.com/98.css" type="text/css">
+<style>
+  body {
+    background-image: url('https://github.com/alienmelon/TetrageddonGames/blob/main/errorzone/images/BACKGROUND_05.gif?raw=true');
+    background-size: cover;
+    animation: backgroundScroll 20s linear infinite;
+  }
+
+  @keyframes backgroundScroll {
+    from { background-position: 0 0; }
+    to { background-position: -1000px 0; }
+  }
+
+  @keyframes flyAnimation {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .window {
+    animation: flyAnimation 5s infinite;
+    width: 80%;
+    margin: auto;
+  }
+
+  .title-bar {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    color: white;
+  }
+
+  .button {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .link-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .link-list li {
+    margin: 10px 0;
+  }
+
+  .link-list a {
+    text-decoration: none;
+    color: blue;
+  }
+
+  /* Added styles for the info text and black screen */
+  .info-text {
+    display: none;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #000;
+    background-color: #fff;
+  }
+
+  .black-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1000;
+  }
+</style>
+<script>
+  function showInfo() {
+    document.querySelector('.info-text').style.display = 'block';
+    document.querySelector('.black-screen').style.display = 'none';
+  }
+
+  function destroyScreen() {
+    document.querySelector('.info-text').style.display = 'none';
+    document.querySelector('.black-screen').style.display = 'block';
+  }
+</script>
+</head>
+<body>
+  <div class="black-screen"></div>
+  <div class="window">
+    <div class="title-bar">
+      <div class="title-bar-text">Microsoft Store</div>
+    </div>
+    <div class="window-body">
+      <ul class="link-list">
+        <li><a href="#">CDEV Engine</a></li>
+        <li><a href="#">Psych Engine</a></li>
+        <li><a href="#">Kade Engine</a></li>
+        <li><a href="#">Doom 2</a></li>
+        <li><a href="#">Roblox</a></li>
+        <li><a href="#">Minecraft</a></li>
+        <li><a href="#">TLauncher</a></li>
+      </ul>
+      <button class="button">Next ></button>
+      <button class="button">< Back</button>
+      <button class="button" onclick="showInfo()">What is this place</button>
+      <button class="button" onclick="destroyScreen()">Destroy</button>
+      <div class="info-text">This is a weird place of microsoft store</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP.css Command Prompt</title>
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    <style>
+        /* Base styles */
+        .window {
+            width: 100%;
+            max-width: 500px; /* Adjust the max-width as needed */
+            margin: auto;
+            transition: transform 2s; /* For the falling effect */
+        }
+
+        /* Styles for larger screens */
+        @media only screen and (min-width: 768px) {
+            .window {
+                width: 50%; /* Adjust the width as needed */
+            }
+        }
+
+        /* Styles for smaller screens */
+        @media only screen and (max-width: 767px) {
+            .title-bar-text {
+                font-size: 0.8rem; /* Adjust the font size as needed */
+            }
+            .window-body {
+                padding: 5px; /* Adjust the padding as needed */
+            }
+            .input-area input {
+                font-size: 0.8rem; /* Adjust the font size as needed */
+            }
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .window.shake {
+            animation: shake 0.5s; /* Adjust timing as needed */
+            animation-iteration-count: infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Command Prompt</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>Welcome to Windows Command Prompt!</p>
+            <div id="output">C:\WINDOWS\SYSTEM32></div>
+            <div class="input-area">
+                <span>C:\WINDOWS\SYSTEM32></span>
+                <input type="text" id="commandInput" onkeydown="if(event.key === 'Enter'){executeCommand()}">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function executeCommand() {
+            var input = document.getElementById('commandInput');
+            var output = document.getElementById('output');
+            var command = input.value;
+            input.value = ''; // Clear the input field
+
+            // Add the command to the output area
+            output.innerHTML += '<br>' + 'C:\WINDOWS\SYSTEM32> ' + command;
+
+            // Split the command into the command name and arguments
+            var parts = command.split(' ');
+            var commandName = parts[0].toLowerCase();
+            var args = parts.slice(1);
+
+            switch (commandName) {
+                case 'help':
+                    output.innerHTML += '<br>' + 'Available commands: help, echo, exit, dir, open, go, git, haxelib, setup, delete, destroy';
+                    break;
+                case 'echo':
+                    // Echo command to repeat the input
+                    var echoText = args.join(' ');
+                    output.innerHTML += '<br>' + echoText;
+                    break;
+                case 'exit':
+                    window.close(); // This will not work in all browsers
+                    break;
+                case 'dir':
+                    // List directory contents (mock)
+                    output.innerHTML += '<br>' + 'File1.txt<br>File2.txt<br>Folder1';
+                    break;
+                case 'open':
+                    // Open a file (mock)
+                    var fileName = args.join(' ');
+                    output.innerHTML += '<br>' + 'Opening ' + fileName;
+                    break;
+                case 'go':
+                    // Go to a directory (mock)
+                    var path = args.join(' ');
+                    output.innerHTML += '<br>' + 'Navigating to ' + path;
+                    break;
+                case 'git':
+                    if (args[0] === 'clone') {
+                        // Git clone command (mock)
+                        var repo = args.slice(1).join(' ');
+                        output.innerHTML += '<br>' + 'Cloning repository ' + repo;
+                    } else {
+                        output.innerHTML += '<br>' + 'Git command not recognized.';
+                    }
+                    break;
+                case 'haxelib':
+                    // Haxelib command (mock)
+                    var libCommand = args.join(' ');
+                    output.innerHTML += '<br>' + 'Running haxelib ' + libCommand;
+                    break;
+                case 'setup':
+                    // Setup command (mock)
+                    output.innerHTML += '<br>' + 'Running setup...';
+                    startSetup();
+                    break;
+                case 'delete':
+                    // Delete a file (mock)
+                    var fileToDelete = args.join(' ');
+                    output.innerHTML += '<br>' + 'Deleting ' + fileToDelete;
+                    break;
+                case 'destroy':
+                    var windowElement = document.querySelector('.window');
+                    windowElement.classList.add('shake');
+                    // After shaking, fall down and navigate to another HTML
+                    setTimeout(function() {
+                        windowElement.style.transform = 'translateY(100vh)';
+                        setTimeout(function() {
+                            window.location.href = 'nuhuh.html'; // Replace with your other HTML file
+                        }, 2000); // Adjust timing as needed
+                    }, 2000); // Adjust timing as needed
+                    break;
+                default:
+                    output.innerHTML += '<br>' + 'Command not recognized.';
+            }
+
+            // Scroll to the bottom of the output area
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function startSetup() {
+            var setupOutput = document.getElementById('setupOutput');
+            if (!setupOutput) {
+                document.body.innerHTML += '<div id="setupOutput">Installing Windows Command Prompt OS...</div><progress id="progressBar" max="100" value="0"></progress>';
+                setupOutput = document.getElementById('setupOutput');
+            }
+            var progressBar = document.getElementById('progressBar');
+            if (!progressBar) {
+                document.body.innerHTML += '<progress id="progressBar" max="100" value="0"></progress>';
+                progressBar = document.getElementById('progressBar');
+            }
+            var width = 1;
+            var interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    document.body.innerHTML = '<h1 style="color:lime; text-align:center;">Installation Complete!</h1>';
+                    // Redirect to the new HTML file after 2 seconds
+                    setTimeout(function() {
+                        window.location.href = 'commandpro.html'; // Replace with the path to your new HTML file
+                    }, 2000);
+                } else {
+                    width++;
+                    progressBar.value = width;
+                }
+            }, 100); // Adjust the speed of the progress bar here
+        }
+    </script>
+</body>
+</html>
